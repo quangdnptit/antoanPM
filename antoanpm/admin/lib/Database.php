@@ -14,7 +14,7 @@ class Database {
     public $link;
 
     public function __construct() {
-        $this->link = mysqli_connect("localhost", "root", "", "antoanphanmem");
+        $this->link = mysqli_connect("localhost", "root", "root", "antoanphanmem");
         mysqli_set_charset($this->link, "utf8");
     }
 
@@ -494,12 +494,86 @@ class Database {
         }
         return $data1;
     }
-public function updateView($id,$view){
-        $query = "update product set view=$view where id=$id";
-        $this->usequery($query);
-    
-}
+    public function updateView($id,$view){
+            $query = "update product set view=$view where id=$id";
+            $this->usequery($query);
 
+    }
+///////////////////////////////////code của tao///////////////////////////////////
+    public function checkLogin($user,$pass){
+        $query = "SELECT * FROM user WHERE username='" .$user. "' AND password='".$pass."'";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1[] = $num;
+            }
+        }
+        return $data1;
+    }
+    public function getAllCategories(){
+        $query = "SELECT * FROM category";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1[] = $num;
+            }
+        }
+        return $data1;
+    }
+    public function getCategoriesById($id){
+        $query = "SELECT * FROM category WHERE id = $id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1 = $num;
+            }
+        }
+        return $data1;
+    }
+    public function createPost($data){
+        $sql = "INSERT INTO `post`(`user_id`, `category_id`, `title`, `content`, `status`) VALUES ('" . $data['user_id'] . "','" . $data['category_id'] . "','" . $data['title'] . "','" . $data['content'] . "','1')";
+        if($this->usequery($sql)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function getPostByUserid($user_id){
+        $sql = "SELECT * FROM post WHERE user_id = $user_id";
+        $result = $this->usequery($sql);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1[] = $num;
+            }
+        }
+        return $data1;
+    }
+    public function getPostByCategoryId($category_id){
+        $query = "SELECT * FROM `post` WHERE `category_id` = $category_id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1[] = $num;
+            }
+        }
+        return $data1;
+    }
+    public function getPostById($id){
+        $query = "SELECT * FROM `post` WHERE `id` = $id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1 = $num;
+            }
+        }
+        return $data1;
+    }
 }
 
 //end file
