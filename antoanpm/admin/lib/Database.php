@@ -19,7 +19,7 @@ class Database {
     }
 
     public function fetchID($table, $id) {
-        $sql = "SELECT * FROM {$table} WHERE id = $id ";
+        $sql = "rSELECT * FROM {$table} WHERE id = $id ";
         $result = mysqli_query($this->link, $sql) or die("Lỗi  truy vấn fetchID " . mysqli_error($this->link));
         return mysqli_fetch_assoc($result);
     }
@@ -565,6 +565,17 @@ class Database {
     }
     public function getPostById($id){
         $query = "SELECT * FROM `post` WHERE `id` = $id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1 = $num;
+            }
+        }
+        return $data1;
+    }
+    public function getUserById($use_id){
+        $query = "SELECT * FROM `user` WHERE `id` = $use_id";
         $result = $this->usequery($query);
         $data1 = [];
         if ($result) {

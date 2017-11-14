@@ -26,7 +26,7 @@ foreach ($results as $result):
                             <b><?= $post['title'] ?></b>
                             <?= substr($post['content'],0,100); ?>...
                         </div>
-                        <a href="#" class="details">+ details</a>
+                        <a href="http://localhost/antoanpm/admin/fontend/single-post.php?post_id=<?= $post['id'];?>&user_id=<?= $post['user_id'];?>" class="details">+ details</a>
                     </div>
             <?php
                     $i++;
