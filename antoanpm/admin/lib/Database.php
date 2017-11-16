@@ -615,6 +615,14 @@ class Database {
             return false;
         }
     }
+    public function updateComment($data){
+        $sql = "UPDATE `comment` SET `derc`='" . $data['derc'] . "' WHERE `id`= ".$data['id']."";
+        if($this->usequery($sql)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public function getAllCommentByPostId($post_id){
         $query = "SELECT * FROM `comment` WHERE `post_id` = $post_id";
         $result = $this->usequery($query);
@@ -625,6 +633,14 @@ class Database {
             }
         }
         return $data1;
+    }
+    public function deleteComment($comment_id){
+        $sql = "DELETE FROM `comment` WHERE id= $comment_id";
+        if($this->usequery($sql)){
+            return true;
+        }else{
+            return false;
+        }
     }
     public function updatePost($data){
         $sql = "UPDATE `post` SET `category_id`='" . $data['category_id'] . "',`title`='" . $data['title'] . "',`content`='" . $data['content'] . "',`status`='" . $data['status']."' WHERE `id`= ".$data['id']." AND `user_id`='" . $data['user_id'] . "'";
