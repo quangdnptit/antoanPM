@@ -533,6 +533,17 @@ class Database {
         }
         return $data1;
     }
+    public function getAllCategoriesByUserId($user_id){
+        $query = "SELECT * FROM category WHERE user_id = $user_id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1[] = $num;
+            }
+        }
+        return $data1;
+    }
     public function createPost($data){
         $sql = "INSERT INTO `post`(`user_id`, `category_id`, `title`, `content`, `status`) VALUES ('" . $data['user_id'] . "','" . $data['category_id'] . "','" . $data['title'] . "','" . $data['content'] . "','1')";
         if($this->usequery($sql)){
@@ -574,6 +585,17 @@ class Database {
         }
         return $data1;
     }
+    public function getPostByPaUid($post_id, $user_id){
+        $query = "SELECT * FROM `post` WHERE `id` = $post_id AND `user_id` = $user_id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1 = $num;
+            }
+        }
+        return $data1;
+    }
     public function getUserById($use_id){
         $query = "SELECT * FROM `user` WHERE `id` = $use_id";
         $result = $this->usequery($query);
@@ -584,6 +606,41 @@ class Database {
             }
         }
         return $data1;
+    }
+    public function createComment($data){
+        $sql = "INSERT INTO `comment`(`post_id`, `user_id`, `derc`) VALUES ('" . $data['post_id'] . "','" . $data['user_id'] . "','" . $data['derc'] . "')";
+        if($this->usequery($sql)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function getAllCommentByPostId($post_id){
+        $query = "SELECT * FROM `comment` WHERE `post_id` = $post_id";
+        $result = $this->usequery($query);
+        $data1 = [];
+        if ($result) {
+            while ($num = mysqli_fetch_assoc($result)) {
+                $data1[] = $num;
+            }
+        }
+        return $data1;
+    }
+    public function updatePost($data){
+        $sql = "UPDATE `post` SET `category_id`='" . $data['category_id'] . "',`title`='" . $data['title'] . "',`content`='" . $data['content'] . "',`status`='" . $data['status']."' WHERE `id`= ".$data['id']." AND `user_id`='" . $data['user_id'] . "'";
+        if($this->usequery($sql)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function deletePost($post_id){
+        $sql = "DELETE FROM `post` WHERE id= $post_id";
+        if($this->usequery($sql)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 

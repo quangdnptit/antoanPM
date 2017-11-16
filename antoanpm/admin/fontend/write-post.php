@@ -11,7 +11,11 @@ if(isset($_SESSION['user'])){
         $category = isset($_POST['category'])?$_POST['category']:'';
         $content = isset($_POST['editor1'])?$_POST['editor1']:'';
         if(empty($title) || empty($category) || empty($content)){
-            echo "<script type='text/javascript'>alert('Bạn phải điền đầy đủ vào các ô!');</script>";
+        ?>
+            <script type='text/javascript'>
+                alert('Bạn phải điền đầy đủ vào các ô!');
+            </script>
+        <?php
         }else{
             $data = array(
                 'user_id' => $user['id'],
@@ -20,7 +24,11 @@ if(isset($_SESSION['user'])){
                 'content' => addslashes ($content)
             );
             if($db->createPost($data)){
-                echo "<script type='text/javascript'>alert('Đăng bài thành công!');</script>";
+            ?>
+                <script type='text/javascript'>
+                    alert('Đăng bài thành công!');
+                </script>
+            <?php
             }
         }
     }
@@ -42,7 +50,7 @@ if(isset($_SESSION['user'])){
                     <td>
                         <select name="category">
                             <?php
-                            $categories = $db->getAllCategories();//var_dump($categories);
+                            $categories = $db->getAllCategories();
                             if(isset($categories)){
                                 foreach ($categories as $category):
                             ?>
@@ -75,5 +83,10 @@ if(isset($_SESSION['user'])){
     <?php
     require_once 'layout/footer.php';
 }else{
-    header('Location: http://localhost/antoanpm/admin/fontend/index.php');
+?>
+    <script type='text/javascript'>
+        alert('Bạn phải đăng nhập để truy cập vào trang này!');
+        window.location = "http://localhost/antoanpm/admin/fontend/index.php";
+    </script>
+<?php
 }

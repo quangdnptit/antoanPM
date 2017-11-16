@@ -72,7 +72,12 @@ $db=new Database();
                     $result  = $db->checkLogin($username,$password);
                     if(!empty($result)){
                         $_SESSION['user'] = $result[0];
-                        header('Location: http://localhost/antoanpm/admin/fontend/index.php');
+                    ?>
+                        <script type='text/javascript'>
+                            alert('Đăng nhập thành công!');
+                            window.location = "http://localhost/antoanpm/admin/fontend/index.php";
+                        </script>
+                    <?php
                     }
                     //$user_id = $result[0]['id'];
                 }

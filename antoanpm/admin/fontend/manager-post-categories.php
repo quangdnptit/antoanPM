@@ -6,7 +6,7 @@ if(isset($_SESSION['user'])){
     include_once 'layout/header.php';
     $user = $_SESSION['user'];
     $user_id = $user['id'];
-    $results = $db->getPostByUserid($user_id);
+    $categories = $db->getAllCategoriesByUserId($user_id);
 ?>
     <div id="main_content">
         <h1 align="center" style="margin: 5px 0px">Manager your post</h1>
@@ -21,39 +21,43 @@ if(isset($_SESSION['user'])){
 
                 </th>
             </tr>
-        <?php foreach ($results as $result):?>
+<?php
+    foreach ($categories as $category):
+        $posts = $db->getPostByCategoryId($category['id']);
+        foreach ($posts as $post):
+    ?>
             <tr>
-                <td><?= $result['id'] ?></td>
-                <td><?= $result['title'] ?></td>
+                <td><?= $post['id'] ?></td>
+                <td><?= $post['title'] ?></td>
                 <td>
                     <?php
-                    $category = $db->getCategoriesById($result['category_id']);
-                    echo $category['name'];
+                        $cate = $db->getCategoriesById($post['category_id']);
+                        echo $cate['name'];
                     ?>
                 </td>
+                <td><?= substr($post['content'],0,100); ?></td>
+                <td><?= $post['status']==1?'Open':'Close' ?></td>
+                <td><?= $post['id'] ?></td>
                 <td>
-                    <?= substr($result['content'],0,100); ?>
+                    <a href="http://localhost/antoanpm/admin/fontend/edit-post.php?action=edit&post_id=<?= $post['id']; ?>&author_id=<?= $post['user_id']; ?>">Edit</a>
                 </td>
                 <td>
-                    <?= $result['status']==1?'Open':'Close' ?>
-                </td>
-                <td>
-                    <a href="http://localhost/antoanpm/admin/fontend/edit-post.php?action=edit&post_id=<?= $result['id']; ?>&author_id=<?= $user_id; ?>">Edit</a>
-                </td>
-                <td>
-                    <a href="http://localhost/antoanpm/admin/fontend/edit-post.php?action=delete&post_id=<?= $result['id']; ?>&author_id=<?= $user_id; ?>">Delete</a>
+                    <a href="http://localhost/antoanpm/admin/fontend/edit-post.php?action=delete&post_id=<?= $post['id']; ?>&author_id=<?= $post['user_id']; ?>">Delete</a>
                 </td>
             </tr>
-        <?php endforeach;?>
+    <?php
+        endforeach;
+    endforeach;
+    ?>
         </table>
     </div>
 <?php
     require_once 'layout/footer.php';
 }else{
-?>
+    ?>
     <script type='text/javascript'>
         alert('Bạn phải đăng nhập để truy cập vào trang này!');
         window.location = "http://localhost/antoanpm/admin/fontend/index.php";
     </script>
-<?php
+    <?php
 }

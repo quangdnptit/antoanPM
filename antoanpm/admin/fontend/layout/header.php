@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="assets/style.css" media="screen" />
     <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="assets/iecss.css" /> <![endif]-->
+    <script src="assets/jquery.min.js"></script>
 </head>
 
 <body>
@@ -21,7 +22,7 @@
                         $user_name = $user['name'];
                 ?>
                         <a href="#" class="login"><?=$user_name?></a>
-                        <a href="#" class="sign_up">Logout</a>
+                        <a href="http://localhost/antoanpm/admin/fontend/user/logout.php" class="sign_up">Logout</a>
                 <?php
                     }else{
                 ?>
@@ -36,7 +37,16 @@
                     <li><a href="http://localhost/antoanpm/admin/fontend/index.php" title="">Home</a></li>
                     <li><a href="http://localhost/antoanpm/admin/fontend/write-post.php" title="">Write post</a></li>
                     <li><a href="http://localhost/antoanpm/admin/fontend/manager-post.php" title="">Manage posts</a></li>
-                    <li><a href="#" title="">Contact Us</a></li>
+                <?php
+                    if(isset($_SESSION['user'])):
+                        $user = $_SESSION['user'];
+                        if($user['level'] == 3):
+                ?>
+                            <li><a href="http://localhost/antoanpm/admin/fontend/manager-post-categories.php" title="">Categories</a></li>
+                <?php
+                        endif;
+                    endif;
+                ?>
                 </ul>
             </div>
         </div>

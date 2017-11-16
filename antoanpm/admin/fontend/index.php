@@ -14,7 +14,7 @@ foreach ($results as $result):
             <div class="box_title">
                 <div class="title_icon"><img src="assets/images/mini_icon2.gif" alt="" title="" /></div>
                 <h2><?= $result['name'] ?></h2>
-                <a href="#" class="view-all">view all</a>
+                <a href="http://localhost/antoanpm/admin/fontend/list-post-by-category.php?cate_id=<?= $result['id'] ?>" class="view-all">view all</a>
             </div>
             <?php
                 $posts = $db->getPostByCategoryId($result['id']);
