@@ -14,12 +14,12 @@ class Database {
     public $link;
 
     public function __construct() {
-        $this->link = mysqli_connect("localhost", "root", "root", "antoanphanmem");
+        $this->link = mysqli_connect("localhost", "root", "", "antoanphanmem");
         mysqli_set_charset($this->link, "utf8");
     }
 
     public function fetchID($table, $id) {
-        $sql = "rSELECT * FROM {$table} WHERE id = $id ";
+        $sql = "SELECT * FROM {$table} WHERE id = $id ";
         $result = mysqli_query($this->link, $sql) or die("Lỗi  truy vấn fetchID " . mysqli_error($this->link));
         return mysqli_fetch_assoc($result);
     }
@@ -494,170 +494,12 @@ class Database {
         }
         return $data1;
     }
-    public function updateView($id,$view){
-            $query = "update product set view=$view where id=$id";
-            $this->usequery($query);
+public function updateView($id,$view){
+        $query = "update product set view=$view where id=$id";
+        $this->usequery($query);
+    
+}
 
-    }
-///////////////////////////////////code của tao///////////////////////////////////
-    public function checkLogin($user,$pass){
-        $query = "SELECT * FROM user WHERE username='" .$user. "' AND password='".$pass."'";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1[] = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getAllCategories(){
-        $query = "SELECT * FROM category";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1[] = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getCategoriesById($id){
-        $query = "SELECT * FROM category WHERE id = $id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1 = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getAllCategoriesByUserId($user_id){
-        $query = "SELECT * FROM category WHERE user_id = $user_id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1[] = $num;
-            }
-        }
-        return $data1;
-    }
-    public function createPost($data){
-        $sql = "INSERT INTO `post`(`user_id`, `category_id`, `title`, `content`, `status`) VALUES ('" . $data['user_id'] . "','" . $data['category_id'] . "','" . $data['title'] . "','" . $data['content'] . "','1')";
-        if($this->usequery($sql)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public function getPostByUserid($user_id){
-        $sql = "SELECT * FROM post WHERE user_id = $user_id";
-        $result = $this->usequery($sql);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1[] = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getPostByCategoryId($category_id){
-        $query = "SELECT * FROM `post` WHERE `category_id` = $category_id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1[] = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getPostById($id){
-        $query = "SELECT * FROM `post` WHERE `id` = $id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1 = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getPostByPaUid($post_id, $user_id){
-        $query = "SELECT * FROM `post` WHERE `id` = $post_id AND `user_id` = $user_id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1 = $num;
-            }
-        }
-        return $data1;
-    }
-    public function getUserById($use_id){
-        $query = "SELECT * FROM `user` WHERE `id` = $use_id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1 = $num;
-            }
-        }
-        return $data1;
-    }
-    public function createComment($data){
-        $sql = "INSERT INTO `comment`(`post_id`, `user_id`, `derc`) VALUES ('" . $data['post_id'] . "','" . $data['user_id'] . "','" . $data['derc'] . "')";
-        if($this->usequery($sql)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public function updateComment($data){
-        $sql = "UPDATE `comment` SET `derc`='" . $data['derc'] . "' WHERE `id`= ".$data['id']."";
-        if($this->usequery($sql)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public function getAllCommentByPostId($post_id){
-        $query = "SELECT * FROM `comment` WHERE `post_id` = $post_id";
-        $result = $this->usequery($query);
-        $data1 = [];
-        if ($result) {
-            while ($num = mysqli_fetch_assoc($result)) {
-                $data1[] = $num;
-            }
-        }
-        return $data1;
-    }
-    public function deleteComment($comment_id){
-        $sql = "DELETE FROM `comment` WHERE id= $comment_id";
-        if($this->usequery($sql)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public function updatePost($data){
-        $sql = "UPDATE `post` SET `category_id`='" . $data['category_id'] . "',`title`='" . $data['title'] . "',`content`='" . $data['content'] . "',`status`='" . $data['status']."' WHERE `id`= ".$data['id']." AND `user_id`='" . $data['user_id'] . "'";
-        if($this->usequery($sql)){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public function deletePost($post_id){
-        $sql = "DELETE FROM `post` WHERE id= $post_id";
-        if($this->usequery($sql)){
-            return true;
-        }else{
-            return false;
-        }
-    }
 }
 
 //end file
